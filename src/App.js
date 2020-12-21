@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { Login, Register, Home } from "./pages";
+import { Login, Register, Home, RegisterComplete } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { Nav } from "./components";
 
@@ -15,8 +15,9 @@ const App = () => {
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/register/complete" component={RegisterComplete} />
       </Switch>
     </div>
   );
