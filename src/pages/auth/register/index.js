@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { auth } from "../../../firebase";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 export default () => {
   const [email, setEmail] = useState("");
@@ -9,19 +8,20 @@ export default () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
-      url: "http://localhost:3000/register/complete",
-      handleCodeApp: true,
+      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
+      handleCodeInApp: true,
     };
+
     try {
       await auth.sendSignInLinkToEmail(email, config);
       toast.success(
         `Email is sent to ${email}. Click the link to complete your registration`
       );
       localStorage.setItem("emailForRegistration", email);
-      setEmail("");
     } catch (e) {
-      toast.error(`Something went wrong`);
+      toast.error(`${e.message}`);
     }
+    setEmail("");
   };
 
   const registerForm = () => (
