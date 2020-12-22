@@ -9,12 +9,13 @@ import {
 } from "@ant-design/icons";
 import firebase from "firebase";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const { SubMenu } = Menu;
 
 export default () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [current, setCurrent] = useState("home");
 
   const handleClick = (e) => {
@@ -32,23 +33,38 @@ export default () => {
       <Menu.Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
       </Menu.Item>
-      <Menu.Item key="login" icon={<UserOutlined />} className="float-right">
-        <Link to="/login">Login</Link>
-      </Menu.Item>
-      <Menu.Item
-        key="register"
-        icon={<UserAddOutlined />}
-        className="float-right"
-      >
-        <Link to="/register">Register</Link>
-      </Menu.Item>
-      <SubMenu key="SubMenu" icon={<SettingOutlined />} title={"username"}>
-        <Menu.Item key="setting:1">Option 1</Menu.Item>
-        <Menu.Item key="setting:2">Option 2</Menu.Item>
-        <Menu.Item icon={<LogoutOutlined />} onClick={logout} key="setting:3">
-          Logout
-        </Menu.Item>
-      </SubMenu>
+      {!user && (
+        <>
+          <Menu.Item
+            key="login"
+            icon={<UserOutlined />}
+            className="float-right"
+          >
+            <Link to="/login">Login</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="register"
+            icon={<UserAddOutlined />}
+            className="float-right"
+          >
+            <Link to="/register">Register</Link>
+          </Menu.Item>
+        </>
+      )}
+      {user && (
+        <SubMenu
+          key="SubMenu"
+          icon={<SettingOutlined />}
+          title={user.email && user.email.split("@")[0]}
+          className="float-right"
+        >
+          <Menu.Item key="setting:1">Option 1</Menu.Item>
+          <Menu.Item key="setting:2">Option 2</Menu.Item>
+          <Menu.Item icon={<LogoutOutlined />} onClick={logout} key="setting:3">
+            Logout
+          </Menu.Item>
+        </SubMenu>
+      )}
     </Menu>
   );
 };
