@@ -4,6 +4,7 @@ import { Login, Register, Home, RegisterComplete } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { Nav } from "./components";
 
+
 //styles
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
