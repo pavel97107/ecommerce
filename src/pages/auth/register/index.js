@@ -31,8 +31,10 @@ export default () => {
         className="form-control"
         value={email}
         autoFocus
+        placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
+      <br />
       <button type="submit" className="btn btn-raised">
         Register / {email}
       </button>
