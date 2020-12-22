@@ -5,7 +5,7 @@ import {
   SettingOutlined,
   UserAddOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from "@ant-design/icons";
 import firebase from "firebase";
 import { Link, useHistory } from "react-router-dom";
@@ -24,7 +24,7 @@ export default () => {
   const logout = () => {
     firebase.auth().signOut();
     dispatch({ type: "LOG_OUT", payload: null });
-    history.pushState("/login");
+    history.push("/login");
   };
 
   return (
@@ -45,7 +45,7 @@ export default () => {
       <SubMenu key="SubMenu" icon={<SettingOutlined />} title={"username"}>
         <Menu.Item key="setting:1">Option 1</Menu.Item>
         <Menu.Item key="setting:2">Option 2</Menu.Item>
-        <Menu.Item icon={<LogoutOutlined />} key="setting:2">
+        <Menu.Item icon={<LogoutOutlined />} onClick={logout} key="setting:3">
           Logout
         </Menu.Item>
       </SubMenu>
