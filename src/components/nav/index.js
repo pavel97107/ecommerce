@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
   SettingOutlined,
   UserAddOutlined,
   UserOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-
+import firebase from "firebase";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 const { SubMenu } = Menu;
 
 export default () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [current, setCurrent] = useState("home");
 
   const handleClick = (e) => {
     setCurrent(e.key);
+  };
+
+  const logout = () => {
+    firebase.auth().signOut();
+    dispatch({ type: "LOG_OUT", payload: null });
+    history.pushState("/login");
   };
 
   return (
@@ -32,9 +42,12 @@ export default () => {
       >
         <Link to="/register">Register</Link>
       </Menu.Item>
-      <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Username">
+      <SubMenu key="SubMenu" icon={<SettingOutlined />} title={"username"}>
         <Menu.Item key="setting:1">Option 1</Menu.Item>
         <Menu.Item key="setting:2">Option 2</Menu.Item>
+        <Menu.Item icon={<LogoutOutlined />} key="setting:2">
+          Logout
+        </Menu.Item>
       </SubMenu>
     </Menu>
   );
