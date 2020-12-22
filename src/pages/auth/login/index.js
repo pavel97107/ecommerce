@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, googleAuthProvider } from "../../../firebase";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default () => {
+export default ({ history }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const history = useHistory();
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user && user.token) history.push("/");
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
