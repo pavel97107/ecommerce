@@ -4,7 +4,7 @@ import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default () => {
   const [email, setEmail] = useState("");
@@ -108,6 +108,10 @@ export default () => {
           >
             Login with Google
           </Button>
+
+          <Link to="/forgot/password" className="float-right">
+            forgot password?
+          </Link>
         </div>
       </div>
     </div>

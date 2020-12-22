@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { Login, Register, Home, RegisterComplete } from "./pages";
+import {
+  Login,
+  Register,
+  Home,
+  RegisterComplete,
+  ForgotPassword,
+} from "./pages";
 import { ToastContainer } from "react-toastify";
 import { Nav } from "./components";
 
@@ -9,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
 
 //redux fn
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { auth } from "./firebase";
 
 const App = () => {
@@ -38,6 +44,7 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
       </Switch>
     </div>
   );

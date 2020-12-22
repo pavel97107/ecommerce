@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { auth } from "../../../firebase";
 import { toast } from "react-toastify";
-
+import {configRegistration} from '../../../config'
 export default () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = {
-      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
-      handleCodeInApp: true,
-    };
-
+ 
     try {
-      await auth.sendSignInLinkToEmail(email, config);
+      await auth.sendSignInLinkToEmail(email, configRegistration);
       toast.success(
         `Email is sent to ${email}. Click the link to complete your registration`
       );
