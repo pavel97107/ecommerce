@@ -30,6 +30,19 @@ export default ({ history }) => {
     if (user && user.token) history.push("/");
   }, [user]);
 
+  const setUser = (data, user, token) => {
+    dispatch({
+      type: "LOGGED_IN_USER",
+      payload: {
+        name: data.user.name,
+        email: user.email,
+        token,
+        role: data.user.role,
+        _id: data.user._id,
+      },
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading((prev) => !prev);
@@ -37,18 +50,9 @@ export default ({ history }) => {
       const result = await auth.signInWithEmailAndPassword(email, password);
       const { user } = result;
       const { token } = await user.getIdTokenResult();
-
-      const resultTwo = await createOrUpdateUser(token);
-      console.log("CREATE AND UPDATE RESPONSE", resultTwo);
-
-      // dispatch({
-      //   type: "LOGGED_IN_USER",
-      //   payload: {
-      //     email: user.email,
-      //     token,
-      //   },
-      // });
-      // history.push("/");
+      const { data } = await createOrUpdateUser(token);
+      setUser(data, user, token);
+      history.push("/");
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
@@ -61,13 +65,8 @@ export default ({ history }) => {
       const result = await auth.signInWithPopup(googleAuthProvider);
       const { user } = result;
       const { token } = user.getIdTokenResult();
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token,
-        },
-      });
+      const { data } = await createOrUpdateUser(token);
+      setUser(data, user, token);
       history.push("/");
     } catch (e) {
       setLoading(false);
