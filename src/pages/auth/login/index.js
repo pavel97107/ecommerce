@@ -5,10 +5,11 @@ import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
-    process.env.REACT_APP_API,
+    `${process.env.REACT_APP_API}`,
     {},
     {
       headers: {
@@ -38,7 +39,7 @@ export default ({ history }) => {
       const { token } = await user.getIdTokenResult();
 
       const resultTwo = await createOrUpdateUser(token);
-      console.log('CREATE AND UPDATE RESPONSE', resultTwo)
+      console.log("CREATE AND UPDATE RESPONSE", resultTwo);
 
       // dispatch({
       //   type: "LOGGED_IN_USER",
