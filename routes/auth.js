@@ -2,9 +2,9 @@ const { Router } = require("express");
 
 const router = Router();
 
-router.get('/auth/1', (req, res) => {
-    res.json({message: 'hello world'})
-})
+//controllers
+const { createOrUpdateUser } = require("../controllers/auth");
 
+router.get("/create-or-update-user", createOrUpdateUser);
 
 module.exports = router;
