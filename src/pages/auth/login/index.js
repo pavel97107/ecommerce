@@ -6,6 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
+const createOrUpdateUser = async (authtoken) => {
+  return await axios.post(
+    process.env.REACT_APP_API,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
+
 export default ({ history }) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,14 +36,18 @@ export default ({ history }) => {
       const result = await auth.signInWithEmailAndPassword(email, password);
       const { user } = result;
       const { token } = await user.getIdTokenResult();
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token,
-        },
-      });
-      history.push("/");
+
+      const resultTwo = await createOrUpdateUser(token);
+      console.log('CREATE AND UPDATE RESPONSE', resultTwo)
+
+      // dispatch({
+      //   type: "LOGGED_IN_USER",
+      //   payload: {
+      //     email: user.email,
+      //     token,
+      //   },
+      // });
+      // history.push("/");
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
