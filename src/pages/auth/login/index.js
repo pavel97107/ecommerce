@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { auth, googleAuthProvider } from "../../../firebase";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-export const createOrUpdateUser = async (authtoken) => {
-  return await axios.post(
-    `${process.env.REACT_APP_API}/create-or-update-user`,
-    {},
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
+import api from "../../../api";
 
 export default ({ history }) => {
   const [email, setEmail] = useState("");
@@ -47,10 +34,11 @@ export default ({ history }) => {
     e.preventDefault();
     setLoading((prev) => !prev);
     try {
-      const result = await auth.signInWithEmailAndPassword(email, password);
-      const { user } = result;
-      const { token } = await user.getIdTokenResult();
-      const { data } = await createOrUpdateUser(token);
+      const { user, token } = await api.auth.SignInWithEmailAndPassword(
+        email,
+        password
+      );
+      const { data } = await api.auth.createOrUpdateUser(token);
       setUser(data, user, token);
       history.push("/");
     } catch (e) {
@@ -62,11 +50,8 @@ export default ({ history }) => {
   const googleLogin = async () => {
     setLoading((prev) => !prev);
     try {
-      const result = await auth.signInWithPopup(googleAuthProvider);
-      const { user } = result;
-      const { token } = await user.getIdTokenResult();
-      const { data } = await createOrUpdateUser(token);
-      console.log(data)
+      const { user, token } = await api.auth.SignInGoogle();
+      const { data } = await api.auth.createOrUpdateUser(token);
       setUser(data, user, token);
       history.push("/");
     } catch (e) {

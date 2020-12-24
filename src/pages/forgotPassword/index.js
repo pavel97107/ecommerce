@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { configForgotPassword } from "../../config";
+import api from "../../api";
 
 export default ({ history }) => {
   const [email, setEmail] = useState("");
@@ -17,12 +17,8 @@ export default ({ history }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading((prev) => !prev);
-
     try {
-      const result = await auth.sendPasswordResetEmail(
-        email,
-        configForgotPassword
-      );
+      api.auth.forgotPassword(email);
       setEmail("");
       setLoading((prev) => !prev);
       toast.success("Check your email and password reset link");

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../../firebase";
 import { toast } from "react-toastify";
-import { configRegistration } from "../../../config";
 import { useSelector } from "react-redux";
-
-export default ({history}) => {
+import api from "../../../api";
+export default ({ history }) => {
   const [email, setEmail] = useState("");
   const user = useSelector((state) => state.user);
   useEffect(() => {
@@ -13,9 +11,8 @@ export default ({history}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await auth.sendSignInLinkToEmail(email, configRegistration);
+      api.auth.sendSignInLinkToEmail(email);
       toast.success(
         `Email is sent to ${email}. Click the link to complete your registration`
       );

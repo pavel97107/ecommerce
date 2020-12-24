@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../../firebase";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrUpdateUser } from "../login";
+import api from "../../../api";
 
 export default ({ history }) => {
   const [email, setEmail] = useState("");
@@ -22,31 +21,19 @@ export default ({ history }) => {
       return;
     }
     try {
-      const result = await auth.signInWithEmailLink(
-        email,
-        window.location.href
-      );
-
-      if (result.user.emailVerified) {
-        window.localStorage.removeItem("emailForRegistration");
-        let user = auth.currentUser;
-
-        await user.updatePassword(password);
-        const { token } = await user.getIdTokenResult();
-        const { data } = await createOrUpdateUser(token);
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: {
-            name: data.user.name,
-            email: user.email,
-            token,
-            role: data.user.role,
-            _id: data.user._id,
-          },
-        });
-
-        history.push("/");
-      }
+      const { user, token } = await api.auth.registerComplete(email, password);
+      const { data } = await api.auth.createOrUpdateUser(token);
+      dispatch({
+        type: "LOGGED_IN_USER",
+        payload: {
+          name: data.user.name,
+          email: user.email,
+          token,
+          role: data.user.role,
+          _id: data.user._id,
+        },
+      });
+      history.push("/");
     } catch (e) {
       toast.error(e.message);
     }
