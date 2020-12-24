@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const createOrUpdateUser = async (authtoken) => {
+export const createOrUpdateUser = async (authtoken) => {
   return await axios.post(
     `${process.env.REACT_APP_API}/create-or-update-user`,
     {},
@@ -64,8 +64,9 @@ export default ({ history }) => {
     try {
       const result = await auth.signInWithPopup(googleAuthProvider);
       const { user } = result;
-      const { token } = user.getIdTokenResult();
+      const { token } = await user.getIdTokenResult();
       const { data } = await createOrUpdateUser(token);
+      console.log(data)
       setUser(data, user, token);
       history.push("/");
     } catch (e) {

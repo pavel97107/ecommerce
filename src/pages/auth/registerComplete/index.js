@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../../firebase";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrUpdateUser } from "../login";
 
 export default ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
@@ -28,14 +32,22 @@ export default ({ history }) => {
         let user = auth.currentUser;
 
         await user.updatePassword(password);
-        const token = await user.getIdTokenResult();
-        console.log("user", user);
-        console.log("token", token);
-        //dispath({type: "USER", payload: {token}})
+        const { token } = await user.getIdTokenResult();
+        const { data } = await createOrUpdateUser(token);
+        dispatch({
+          type: "LOGGED_IN_USER",
+          payload: {
+            name: data.user.name,
+            email: user.email,
+            token,
+            role: data.user.role,
+            _id: data.user._id,
+          },
+        });
+
         history.push("/");
       }
     } catch (e) {
-      console.error(e);
       toast.error(e.message);
     }
   };
