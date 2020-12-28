@@ -30,6 +30,14 @@ export default ({ history }) => {
     });
   };
 
+  const roleBasedRedicrect = (res) => {
+    if (res.data.user.role === "admin") {
+      history.push("/admin/dashboard");
+    } else {
+      history.push("/user/history");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading((prev) => !prev);
@@ -40,7 +48,7 @@ export default ({ history }) => {
       );
       const { data } = await api.auth.createOrUpdateUser(token);
       setUser(data, user, token);
-      history.push("/");
+      roleBasedRedicrect({ data });
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
