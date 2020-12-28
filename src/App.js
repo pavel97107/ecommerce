@@ -9,28 +9,19 @@ import {
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { Nav } from "./components";
-
+import api from "./api";
 //styles
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
 
 //redux fn
 import { useDispatch } from "react-redux";
-import { auth } from "./firebase";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const { token } = await user.getIdTokenResult();
-        dispatch({
-          type: "LOGGED_IN_USER",
-          payload: { email: user.email, token },
-        });
-      }
-    });
+    const unsubscribe = api.auth.unsubscribe(dispatch);
 
     return () => unsubscribe();
   }, []);

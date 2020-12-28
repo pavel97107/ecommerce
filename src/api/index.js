@@ -47,5 +47,39 @@ export default {
     async forgotPassword(email) {
       await auth.sendPasswordResetEmail(email, configForgotPassword);
     },
+    async unsubscribe(dispatch) {
+      return auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          try {
+            const { token } = await user.getIdTokenResult();
+            const res = await this.currentUser(token);
+            console.log(res);
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      });
+    },
+    async currentUser(authtoken) {
+      return await axios.post(
+        `${process.env.REACT_APP_API}/current-user`,
+        {},
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
   },
 };
