@@ -1,5 +1,5 @@
 const admin = require("../firebase");
-
+const User = require("../models/user");
 exports.authCheck = async function (req, res, next) {
   console.log(req.headers);
   try {
@@ -13,4 +13,18 @@ exports.authCheck = async function (req, res, next) {
     });
   }
   next();
+};
+
+exports.adminCheck = async function (req, res) {
+  const { email } = req.user;
+
+  const adminUser = await User.findOne({ email }).exec();
+
+  if (adminUser.role !== "admin") {
+    req.status(403).json({
+      error: "Admin resource. Access denied.",
+    });
+  } else {
+    next();
+  }
 };
