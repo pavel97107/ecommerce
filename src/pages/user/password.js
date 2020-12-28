@@ -10,7 +10,6 @@ export default () => {
     e.preventDefault();
     setLoading(true);
     api.user.updatePassword(password, setLoading);
-    console.log(password);
   };
 
   const passportUpdateForm = () => (

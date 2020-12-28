@@ -9,9 +9,10 @@ import {
   History,
   Wishlist,
   Password,
+  AdminDashboard,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
-import { UserRoute } from "./helpers";
+import { UserRoute, AdminRoute } from "./helpers";
 import { Nav } from "./components";
 import api from "./api";
 //styles
@@ -42,6 +43,11 @@ const App = () => {
         <UserRoute exact path="/user/history" component={<History />} />
         <UserRoute exact path="/user/password" component={<Password />} />
         <UserRoute exact path="/user/wishlist" component={<Wishlist />} />
+        <AdminRoute
+          exact
+          path="/admin/dashboard"
+          component={<AdminDashboard />}
+        />
       </Switch>
     </div>
   );
