@@ -6,8 +6,10 @@ import {
   Home,
   RegisterComplete,
   ForgotPassword,
+  History,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
+import { PrivateRoute } from "./helpers";
 import { Nav } from "./components";
 import api from "./api";
 //styles
@@ -20,9 +22,10 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
 
+  
+
   useEffect(() => {
     const unsubscribe = api.auth.unsubscribe(dispatch);
-
     return () => unsubscribe();
   }, []);
 
@@ -36,6 +39,9 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <PrivateRoute  exact path="/user/history">
+          <History />
+        </PrivateRoute>
       </Switch>
     </div>
   );
