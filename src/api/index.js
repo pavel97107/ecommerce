@@ -1,6 +1,7 @@
 import axios from "axios";
 import { auth, googleAuthProvider } from "../firebase";
 import { configRegistration, configForgotPassword } from "../config";
+import { toast } from "react-toastify";
 
 export default {
   auth: {
@@ -80,6 +81,18 @@ export default {
           },
         }
       );
-    }
+    },
+  },
+  user: {
+    async updatePassword(password, setLoading) {
+      try {
+        await auth.currentUser.updatePassword(password);
+        toast.success("Password updated");
+      } catch (e) {
+        toast.error(e.message);
+      } finally {
+        setLoading((loading) => !loading);
+      }
+    },
   },
 };
