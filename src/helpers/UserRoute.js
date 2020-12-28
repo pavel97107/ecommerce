@@ -1,6 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LoginToRedirect from "./LoginToRedirect";
 
 export default ({ children, ...rest }) => {
   const user = useSelector((state) => state.user);
@@ -8,7 +9,7 @@ export default ({ children, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={() => (user && user.token ? children : <h1>Loading.....</h1>)}
+      render={() => (user && user.token ? children : <LoginToRedirect />)}
     />
   );
 };
