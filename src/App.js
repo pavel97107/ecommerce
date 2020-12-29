@@ -10,7 +10,7 @@ import {
   Wishlist,
   Password,
   AdminDashboard,
-  CreateCategory
+  CreateCategory,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { UserRoute, AdminRoute } from "./helpers";
@@ -27,8 +27,9 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = api.auth.unsubscribe(dispatch);
-    return () => unsubscribe();
+    let fn;
+    api.auth.unsubscribe(dispatch).then((res) => (fn = res));
+    return () => fn();
   }, []);
 
   return (

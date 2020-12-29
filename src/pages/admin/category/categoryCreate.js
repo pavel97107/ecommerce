@@ -3,6 +3,9 @@ import { AdminNav } from "../../../components";
 import { useSelector } from "react-redux";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+//icons
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export default () => {
   const [name, setName] = useState("");
@@ -30,8 +33,8 @@ export default () => {
       const response = await api.category.createCategory({ name }, token);
       console.log(response);
       toast.success(`${response.data.name} is created!`);
+      loadCategories()
     } catch (err) {
-      console.log(err.message);
       if (err.response.status === 400) {
         return toast.error(err.response.data.message);
       }
@@ -40,6 +43,26 @@ export default () => {
       setName("");
       setLoading(false);
     }
+  };
+
+  const handleRemove = (slug) => {
+    return async () => {
+      if (window.confirm("Remove category?")) {
+        setLoading(true);
+        try {
+          const response = await api.category.removeCategory(slug, token);
+          toast.success(`${response.data.name} deleted!`);
+          loadCategories()
+        } catch (err) {
+          if (err.response.status === 400) {
+            return toast.error(err.response.data.message);
+          }
+          toast.error(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
   };
 
   const categoryForm = () => {
@@ -81,8 +104,31 @@ export default () => {
           )}
 
           {categoryForm()}
+          {categories.map((c) => {
+            return (
+              <div key={c._id} className="alert alert-secondary">
+                {c.name}
+                <span
+                  onClick={handleRemove(c.slug)}
+                  className="btn btn-sm float-right"
+                >
+                  <DeleteOutlined className="text-danger" />
+                </span>
+                <Link
+                  to={`/category/${c.slug}`}
+                  className="btn btn-sm float-right"
+                >
+                  <EditOutlined className="text-warning" />
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
+};
+
+const СonfirmationWindow = (onClose, Remove) => {
+  return <div className=""></div>;
 };

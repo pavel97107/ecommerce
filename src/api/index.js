@@ -151,7 +151,6 @@ export default {
     async removeCategory(slug, authtoken) {
       return await axios.delete(
         `${process.env.REACT_APP_API}/category/${slug}`,
-        {},
         {
           headers: {
             authtoken,
