@@ -11,6 +11,7 @@ import {
   Password,
   AdminDashboard,
   CreateCategory,
+  UpdateCategory
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { UserRoute, AdminRoute } from "./helpers";
@@ -54,6 +55,11 @@ const App = () => {
           exact
           path="/admin/category"
           component={<CreateCategory />}
+        />
+        <AdminRoute
+          exact
+          path="/admin/category/:slug"
+          component={<UpdateCategory />}
         />
       </Switch>
     </div>

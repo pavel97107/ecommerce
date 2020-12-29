@@ -116,10 +116,12 @@ export default {
         },
       });
     },
-    async getCategory(slug) {
+    async getCategory(slug, authtoken) {
       return await axios.get(
         `${process.env.REACT_APP_API}/category/${slug}`,
-        {}
+        {headers: {
+          authtoken
+        }}
       );
     },
     async createCategory(category, authtoken) {

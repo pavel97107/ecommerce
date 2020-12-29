@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 //icons
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-export default () => {
+export default (props) => {
+  console.log(props)
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -115,7 +116,7 @@ export default () => {
                   <DeleteOutlined className="text-danger" />
                 </span>
                 <Link
-                  to={`/category/${c.slug}`}
+                  to={`/admin/category/${c.slug}`}
                   className="btn btn-sm float-right"
                 >
                   <EditOutlined className="text-warning" />

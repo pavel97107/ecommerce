@@ -1,2 +1,2 @@
 export { default as AdminDashboard } from "./adminDashboard";
-export { CreateCategory} from "./category";
+export { CreateCategory, UpdateCategory} from "./category";
