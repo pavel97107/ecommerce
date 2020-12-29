@@ -109,8 +109,12 @@ export default {
     },
   },
   category: {
-    async getCategories() {
-      return await axios.get(`${process.env.REACT_APP_API}/categories`);
+    async getCategories(authtoken) {
+      return await axios.get(`${process.env.REACT_APP_API}/categories`, {
+        headers: {
+          authtoken,
+        },
+      });
     },
     async getCategory(slug) {
       return await axios.get(
