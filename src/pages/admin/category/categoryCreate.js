@@ -1,14 +1,13 @@
 import React from "react";
-import { UserNav } from "../../components";
-
+import { AdminNav } from "../../../components";
 export default () => {
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-2">
-          <UserNav />
+          <AdminNav />
         </div>
-        <div className="col">User History Page</div>
+        <div className="col">Create Category</div>
       </div>
     </div>
   );

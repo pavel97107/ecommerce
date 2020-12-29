@@ -10,6 +10,7 @@ import {
   Wishlist,
   Password,
   AdminDashboard,
+  CreateCategory
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { UserRoute, AdminRoute } from "./helpers";
@@ -47,6 +48,11 @@ const App = () => {
           exact
           path="/admin/dashboard"
           component={<AdminDashboard />}
+        />
+        <AdminRoute
+          exact
+          path="/admin/category"
+          component={<CreateCategory />}
         />
       </Switch>
     </div>
