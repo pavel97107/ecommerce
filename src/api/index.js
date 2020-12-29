@@ -108,4 +108,52 @@ export default {
       );
     },
   },
+  category: {
+    async getCategories() {
+      return await axios.get(`${process.env.REACT_APP_API}/categories`);
+    },
+    async getCategory(slug) {
+      return await axios.get(
+        `${process.env.REACT_APP_API}/category/${slug}`,
+        {}
+      );
+    },
+    async createCategory(category, authtoken) {
+      return await axios.post(
+        `${process.env.REACT_APP_API}/category`,
+        {
+          ...category,
+        },
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+    async updateCategory(slug, category, authtoken) {
+      return await axios.put(
+        `${process.env.REACT_APP_API}/category/${slug}`,
+        {
+          ...category,
+        },
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+    async removeCategory(slug, authtoken) {
+      return await axios.delete(
+        `${process.env.REACT_APP_API}/category/${slug}`,
+        {},
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+  },
 };
