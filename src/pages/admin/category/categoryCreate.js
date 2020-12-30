@@ -4,11 +4,12 @@ import { useSelector } from "react-redux";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { CategoryForm } from "../../../components";
 //icons
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export default (props) => {
-  console.log(props)
+  console.log(props);
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -34,7 +35,7 @@ export default (props) => {
       const response = await api.category.createCategory({ name }, token);
       console.log(response);
       toast.success(`${response.data.name} is created!`);
-      loadCategories()
+      loadCategories();
     } catch (err) {
       if (err.response.status === 400) {
         return toast.error(err.response.data.message);
@@ -53,7 +54,7 @@ export default (props) => {
         try {
           const response = await api.category.removeCategory(slug, token);
           toast.success(`${response.data.name} deleted!`);
-          loadCategories()
+          loadCategories();
         } catch (err) {
           if (err.response.status === 400) {
             return toast.error(err.response.data.message);
@@ -64,31 +65,6 @@ export default (props) => {
         }
       }
     };
-  };
-
-  const categoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-            autoFocus
-            required
-          />
-          <br />
-          <button
-            disabled={!name || name.length < 2}
-            className="btn btn-outline-primary"
-          >
-            Save
-          </button>
-        </div>
-      </form>
-    );
   };
 
   return (
@@ -104,7 +80,12 @@ export default (props) => {
             <h4>Create Category</h4>
           )}
 
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+            title="Save"
+          />
           {categories.map((c) => {
             return (
               <div key={c._id} className="alert alert-secondary">
@@ -128,8 +109,4 @@ export default (props) => {
       </div>
     </div>
   );
-};
-
-const СonfirmationWindow = (onClose, Remove) => {
-  return <div className=""></div>;
 };

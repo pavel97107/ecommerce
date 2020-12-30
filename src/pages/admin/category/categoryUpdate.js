@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import { useHistory, useParams } from "react-router-dom";
+import { CategoryForm } from "../../../components";
 //icons
 
 export default () => {
@@ -43,51 +44,6 @@ export default () => {
     }
   };
 
-  // const handleRemove = (slug) => {
-  //   return async () => {
-  //     if (window.confirm("Remove category?")) {
-  //       setLoading(true);
-  //       try {
-  //         const response = await api.category.removeCategory(slug, token);
-  //         toast.success(`${response.data.name} deleted!`);
-  //         loadCategories()
-  //       } catch (err) {
-  //         if (err.response.status === 400) {
-  //           return toast.error(err.response.data.message);
-  //         }
-  //         toast.error(err.message);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-  //   };
-  // };
-
-  const categoryForm = () => {
-    return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-            autoFocus
-            required
-          />
-          <br />
-          <button
-            disabled={!name || name.length < 2}
-            className="btn btn-outline-primary"
-          >
-            Update
-          </button>
-        </div>
-      </form>
-    );
-  };
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -100,7 +56,12 @@ export default () => {
           ) : (
             <h4>Update Category</h4>
           )}
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+            title="Update"
+          />
         </div>
       </div>
     </div>
