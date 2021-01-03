@@ -15,6 +15,9 @@ export default (props) => {
   const [categories, setCategories] = useState([]);
   const token = useSelector((state) => state.user.token);
 
+  //step1
+  const [keyword, setKeyword] = useState("");
+
   useEffect(() => {
     loadCategories();
   }, []);
@@ -67,6 +70,13 @@ export default (props) => {
     };
   };
 
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setKeyword(e.target.value.toLowerCase());
+  };
+
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -85,6 +95,14 @@ export default (props) => {
             name={name}
             setName={setName}
             title="Save"
+          />
+
+          <input
+            type="text"
+            value={keyword}
+            onChange={handleSearchChange}
+            placeholder="Filter"
+            className="form-control"
           />
           {categories.map((c) => {
             return (
