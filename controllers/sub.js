@@ -28,13 +28,13 @@ exports.read = async function (req, res) {
 };
 
 exports.update = async function (req, res) {
-  const { name } = req.body;
+  const { name, selectedCategory } = req.body;
   try {
     const sub = await Sub.findOneAndUpdate(
       {
         slug: req.params.slug,
       },
-      { name, slug: slugify(name) },
+      { name, parent: selectedCategory, slug: slugify(name) },
       { new: true }
     );
     res.json(sub);
