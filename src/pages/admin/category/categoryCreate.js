@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AdminNav } from "../../../components";
+import { AdminNav, LocalSearch } from "../../../components";
 import { useSelector } from "react-redux";
 import api from "../../../api";
 import { toast } from "react-toastify";
@@ -70,11 +70,6 @@ export default (props) => {
     };
   };
 
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    setKeyword(e.target.value.toLowerCase());
-  };
-
   const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   return (
@@ -97,13 +92,7 @@ export default (props) => {
             title="Save"
           />
 
-          <input
-            type="text"
-            value={keyword}
-            onChange={handleSearchChange}
-            placeholder="Filter"
-            className="form-control"
-          />
+          <LocalSearch setKeyword={setKeyword} keyword={keyword} />
           {categories.filter(searched(keyword)).map((c) => {
             return (
               <div key={c._id} className="alert alert-secondary">
