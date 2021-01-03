@@ -117,12 +117,11 @@ export default {
       });
     },
     async getCategory(slug, authtoken) {
-      return await axios.get(
-        `${process.env.REACT_APP_API}/category/${slug}`,
-        {headers: {
-          authtoken
-        }}
-      );
+      return await axios.get(`${process.env.REACT_APP_API}/category/${slug}`, {
+        headers: {
+          authtoken,
+        },
+      });
     },
     async createCategory(category, authtoken) {
       return await axios.post(
@@ -159,6 +158,47 @@ export default {
           },
         }
       );
+    },
+  },
+  sub: {
+    async getSubs() {
+      return await axios.get(`${process.env.REACT_APP_API}/subs`);
+    },
+    async getSub(slug) {
+      return await axios.get(`${process.env.REACT_APP_API}/sub/${slug}`);
+    },
+    async createSub(sub, authtoken) {
+      return await axios.post(
+        `${process.env.REACT_APP_API}/sub`,
+        {
+          ...sub,
+        },
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+    async updateSub(slug, sub, authtoken) {
+      return await axios.put(
+        `${process.env.REACT_APP_API}/sub/${slug}`,
+        {
+          ...sub,
+        },
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+    async removeSub(slug, authtoken) {
+      return await axios.delete(`${process.env.REACT_APP_API}/sub/${slug}`, {
+        headers: {
+          authtoken,
+        },
+      });
     },
   },
 };
