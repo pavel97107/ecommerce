@@ -3,21 +3,20 @@ import { AdminNav, LocalSearch } from "../../../components";
 import { useSelector } from "react-redux";
 import api from "../../../api";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { CategoryForm } from "../../../components";
 //icons
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export default () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [subs, setSubs] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const token = useSelector((state) => state.user.token);
 
-  //step1
-  const [keyword, setKeyword] = useState("");
+  const { slug } = useParams();
+  const history = useHistory();
+  console.log(slug);
 
   useEffect(() => {
     loadSubs();
@@ -26,8 +25,10 @@ export default () => {
 
   const loadSubs = async () => {
     try {
-      const { data } = await api.sub.getSubs();
-      setSubs(data);
+      const { data } = await api.sub.getSub(slug);
+      console.log(data);
+      setName(data.name);
+      setSelectedCategory(data.parent);
     } catch (err) {
       toast.error(err.message);
     }
@@ -46,12 +47,13 @@ export default () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await api.sub.createSub(
+      const response = await api.sub.updateSub(
+        slug,
         { name, selectedCategory },
         token
       );
-      toast.success(`${response.data.name} is created!`);
-      loadSubs();
+      toast.success(`${response.data.name} is updated!`);
+      return history.push('/admin/sub')
     } catch (err) {
       if (err.response.status === 400) {
         return toast.error(err.response.data.message);
@@ -63,28 +65,6 @@ export default () => {
     }
   };
 
-  const handleRemove = (slug) => {
-    return async () => {
-      if (window.confirm("Remove Sub?")) {
-        setLoading(true);
-        try {
-          const response = await api.sub.removeSub(slug, token);
-          toast.success(`${response.data.name} deleted!`);
-          loadSubs();
-        } catch (err) {
-          if (err.response.status === 400) {
-            return toast.error(err.response.data.message);
-          }
-          toast.error(err.message);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-  };
-
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -95,12 +75,12 @@ export default () => {
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
-            <h4>Create Sub</h4>
+            <h4>Update Sub</h4>
           )}
 
           <form>
             <div className="form-group">
-              <label>Parent Category</label>
+              <label>Update Parent Category</label>
               <select
                 name="categories"
                 className="form-control"
@@ -110,7 +90,7 @@ export default () => {
                 {categories.length !== 0 &&
                   categories.map((c) => {
                     return (
-                      <option key={c._id} value={c._id}>
+                      <option key={c._id} value={c._id} selected={selectedCategory === c._id}>
                         {c.name}
                       </option>
                     );
@@ -125,27 +105,6 @@ export default () => {
             setName={setName}
             title="Save"
           />
-
-          <LocalSearch setKeyword={setKeyword} keyword={keyword} />
-          {subs.filter(searched(keyword)).map((c) => {
-            return (
-              <div key={c._id} className="alert alert-secondary">
-                {c.name}
-                <span
-                  onClick={handleRemove(c.slug)}
-                  className="btn btn-sm float-right"
-                >
-                  <DeleteOutlined className="text-danger" />
-                </span>
-                <Link
-                  to={`/admin/sub/${c.slug}`}
-                  className="btn btn-sm float-right"
-                >
-                  <EditOutlined className="text-warning" />
-                </Link>
-              </div>
-            );
-          })}
         </div>
       </div>
     </div>
