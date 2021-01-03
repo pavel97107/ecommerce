@@ -104,7 +104,7 @@ export default (props) => {
             placeholder="Filter"
             className="form-control"
           />
-          {categories.map((c) => {
+          {categories.filter(searched(keyword)).map((c) => {
             return (
               <div key={c._id} className="alert alert-secondary">
                 {c.name}
