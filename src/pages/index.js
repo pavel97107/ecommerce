@@ -4,4 +4,11 @@ export { default as Register } from "./auth/register";
 export { default as RegisterComplete } from "./auth/registerComplete";
 export { default as ForgotPassword } from "./forgotPassword";
 export { History, Password, Wishlist } from "./user";
-export { AdminDashboard, CreateCategory, UpdateCategory, SubCreate, SubUpdate } from "./admin";
+export {
+  AdminDashboard,
+  CreateCategory,
+  UpdateCategory,
+  SubCreate,
+  SubUpdate,
+} from "./admin";
+export { default as ProductCreate } from "./product";

@@ -13,7 +13,6 @@ export default ({ component, ...rest }) => {
       api.admin
         .currentAdmin(user.token)
         .then((res) => {
-          console.log("CURRENT ADMIN", res);
           setOk(true);
         })
         .catch((err) => console.error(err.message));

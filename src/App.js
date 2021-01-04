@@ -13,7 +13,8 @@ import {
   CreateCategory,
   UpdateCategory,
   SubCreate,
-  SubUpdate
+  SubUpdate,
+  ProductCreate,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import { UserRoute, AdminRoute } from "./helpers";
@@ -63,16 +64,9 @@ const App = () => {
           path="/admin/category/:slug"
           component={<UpdateCategory />}
         />
-        <AdminRoute
-          exact
-          path="/admin/sub"
-          component={<SubCreate />}
-        />
-        <AdminRoute
-          exact
-          path="/admin/sub/:slug"
-          component={<SubUpdate />}
-        />
+        <AdminRoute exact path="/admin/sub" component={<SubCreate />} />
+        <AdminRoute exact path="/admin/sub/:slug" component={<SubUpdate />} />
+        <AdminRoute exact path="/admin/product" component={<ProductCreate />} />
       </Switch>
     </div>
   );

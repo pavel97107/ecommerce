@@ -201,4 +201,19 @@ export default {
       });
     },
   },
+  product: {
+    async createProduct(product, authtoken) {
+      return await axios.post(
+        `${process.env.REACT_APP_API}/product`,
+        {
+          ...product,
+        },
+        {
+          headers: {
+            authtoken,
+          },
+        }
+      );
+    },
+  },
 };
