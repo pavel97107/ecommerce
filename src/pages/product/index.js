@@ -8,7 +8,30 @@ import { CategoryForm } from "../../components";
 //icons
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
+const initialState = {
+  title: "",
+  description: "",
+  price: "",
+  category: "",
+  subs: [],
+  shipping: "",
+  quantity: "",
+  images: [],
+  colors: ["Black", "Brown", "Silver", "White", "Blue"],
+  brands: ["Apple", "Microsoft", "Samsung", "Lenovo", "Asus"],
+  color: "",
+  brand: "",
+};
+
 export default () => {
+  const [values, setValues] = useState(initialState);
+
+  const handleSubmit = () => {};
+
+  const handleChange = ({ target }) => {
+    setValues({ ...values, [target.name]: target.value });
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -16,7 +39,99 @@ export default () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-            Product
+          <h4>Product Create</h4>
+          <br />
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="product-title">Title</label>
+              <input
+                type="text"
+                value={values.title}
+                id="product-title"
+                name="title"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="desc-product">Description</label>
+              <input
+                type="text"
+                value={values.description}
+                id="desc-product"
+                name="description"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="price-product">Price</label>
+              <input
+                type="number"
+                id="price-product"
+                name="price"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="shipping-product">Shipping</label>
+              <select
+                className="form-control"
+                id="shipping-product"
+                name="shipping"
+                onChange={handleChange}
+              >
+                <option>Please Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="quantity-product">Quantity</label>
+              <input
+                type="number"
+                id="quantity-product"
+                name="price"
+                className="form-control"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="color-product">Color</label>
+              <select
+                className="form-control"
+                id="color-product"
+                name="shipping"
+                onChange={handleChange}
+              >
+                <option>Please Select</option>
+                {values.colors.map((c) => (
+                  <option key={c} value={c} u>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="brand-product">Brand</label>
+              <select
+                className="form-control"
+                id="brand-product"
+                name="shipping"
+                onChange={handleChange}
+              >
+                <option>Please Select</option>
+                {values.brands.map((b) => (
+                  <option key={b} value={b} u>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button className="btn btn-outline-info">Create</button>
+          </form>
         </div>
       </div>
     </div>
