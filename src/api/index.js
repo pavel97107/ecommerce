@@ -203,7 +203,7 @@ export default {
   },
   product: {
     async createProduct(product, authtoken) {
-      return await axios.post(
+      return axios.post(
         `${process.env.REACT_APP_API}/product`,
         {
           ...product,

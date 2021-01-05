@@ -25,8 +25,18 @@ const initialState = {
 
 export default () => {
   const [values, setValues] = useState(initialState);
+  const token = useSelector((state) => state.user.token);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.product.createProduct(values, token);
+      toast.success(`${response.data.title} is created!`);
+      console.log(response);
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
+  };
 
   const handleChange = ({ target }) => {
     setValues({ ...values, [target.name]: target.value });
@@ -40,7 +50,7 @@ export default () => {
         </div>
         <div className="col-md-10">
           <h4>Product Create</h4>
-          <br />
+          <hr />
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -93,7 +103,7 @@ export default () => {
               <input
                 type="number"
                 id="quantity-product"
-                name="price"
+                name="quantity"
                 className="form-control"
                 onChange={handleChange}
               />
@@ -103,12 +113,12 @@ export default () => {
               <select
                 className="form-control"
                 id="color-product"
-                name="shipping"
+                name="color"
                 onChange={handleChange}
               >
                 <option>Please Select</option>
                 {values.colors.map((c) => (
-                  <option key={c} value={c} u>
+                  <option key={c} value={c}>
                     {c}
                   </option>
                 ))}
@@ -119,12 +129,12 @@ export default () => {
               <select
                 className="form-control"
                 id="brand-product"
-                name="shipping"
+                name="brand"
                 onChange={handleChange}
               >
                 <option>Please Select</option>
                 {values.brands.map((b) => (
-                  <option key={b} value={b} u>
+                  <option key={b} value={b}>
                     {b}
                   </option>
                 ))}
