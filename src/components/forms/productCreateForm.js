@@ -90,6 +90,25 @@ export default ({ handleSubmit, handleChange, values }) => {
           ))}
         </select>
       </div>
+
+      <div className="form-group">
+        <label htmlFor="categories-product">Categories</label>
+        <select
+          className="form-control"
+          id="categories-product"
+          name="category"
+          onChange={handleChange}
+        >
+          <option>Please Select</option>
+          {values.categories !== 0 &&
+            values.categories.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
+        </select>
+      </div>
+
       <button className="btn btn-outline-info">Create</button>
     </form>
   );

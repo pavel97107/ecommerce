@@ -13,6 +13,7 @@ const initialState = {
   description: "",
   price: "",
   category: "",
+  categories: [],
   subs: [],
   shipping: "",
   quantity: "",
@@ -26,6 +27,7 @@ const initialState = {
 export default () => {
   const [values, setValues] = useState(initialState);
   const token = useSelector((state) => state.user.token);
+  const [products, setProducts] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +39,19 @@ export default () => {
       toast.error(err.response.data.message);
     }
   };
+
+  useEffect(() => {
+    loadCategories();
+    loadProducts();
+  }, []);
+
+  const loadProducts = () =>
+    api.product.getProducts().then(({ data }) => setProducts(data));
+
+  const loadCategories = () =>
+    api.category
+      .getCategories(token)
+      .then(({ data }) => setValues({ ...values, categories: data }));
 
   const handleChange = ({ target }) => {
     setValues({ ...values, [target.name]: target.value });

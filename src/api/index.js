@@ -202,7 +202,7 @@ export default {
     },
   },
   product: {
-    async createProduct(product, authtoken) {
+    createProduct(product, authtoken) {
       return axios.post(
         `${process.env.REACT_APP_API}/product`,
         {
@@ -214,6 +214,9 @@ export default {
           },
         }
       );
+    },
+    getProducts() {
+      return axios.get(`${process.env.REACT_APP_API}/products`);
     },
   },
 };
